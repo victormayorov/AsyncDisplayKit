@@ -183,6 +183,7 @@ static BOOL _isInterceptedSelector(SEL sel)
   ASDisplayNodeAssert(self.asyncDelegate, @"ASCollectionView's asyncDelegate property must be set.");
   ASDisplayNodePerformBlockOnMainThread(^{
     [super reloadData];
+    [self layoutIfNeeded];
   });
   [_dataController reloadDataWithAnimationOptions:kASCollectionViewAnimationNone completion:completion];
 }
