@@ -106,10 +106,12 @@ NSArray *ASFindElementsInMultidimensionalArrayAtIndexPaths(NSMutableArray *mutab
   }
 
   ASRecursivelyUpdateMultidimensionalArrayAtIndexPaths(mutableArray, indexPaths, curIdx, indexPath, [indexPaths[0] length], ^(NSMutableArray *arr, NSIndexSet *indexSet, NSUInteger idx) {
-    [deletedElements addObjectsFromArray:[arr objectsAtIndexes:indexSet]];
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *top){
+      if (idx < arr.count) {
+        [deletedElements addObject:[arr objectAtIndex:idx]];
+      }
+    }];
   });
-
-  ASDisplayNodeCAssert(curIdx == indexPaths.count, @"Indexpath is out of range !");
 
   return deletedElements;
 }
