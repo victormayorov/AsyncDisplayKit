@@ -173,6 +173,9 @@ static BOOL _isInterceptedSelector(SEL sel)
   // This bug might be iOS 7-specific.
   super.delegate  = nil;
   super.dataSource = nil;
+  
+  [NSObject cancelPreviousPerformRequestsWithTarget:_proxyDataSource];
+  [NSObject cancelPreviousPerformRequestsWithTarget:_proxyDelegate];
 }
 
 #pragma mark -
