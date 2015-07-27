@@ -343,7 +343,12 @@ static void *kASSizingQueueContext = &kASSizingQueueContext;
     }];
     [_pendingEditCommandBlocks removeAllObjects];
 
-    [_delegate dataControllerEndUpdates:self completion:completion];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      [_editingTransactionQueue waitUntilAllOperationsAreFinished];
+      ASDisplayNodePerformBlockOnMainThread(^{
+        [_delegate dataControllerEndUpdates:self completion:completion];
+      });
+    });
   }
 }
 
